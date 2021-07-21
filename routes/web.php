@@ -37,8 +37,8 @@ Route::get('/gear/{player}/{server}/{region}', 'RaidController@gear')->name('gea
 
 Route::get('/darkmode', 'UserController@darkmode')->name('darkmode');
 Route::get('/logout', 'UserController@logout')->name('logout');
-
 Route::get('/dashboard/admin', 'DashboardController@admin')->name('dashboard.admin');
+Route::get('/characters/search/{name}', 'CharacterController@search')->name('character.search');
 
 // Player Routes
 Route::group(['middleware' => ['oauth']], function() {
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['oauth']], function() {
     // Characters 
     Route::get('/characters', 'CharacterController@index')->name('character.servers');
     Route::get('/characters/{serverID}', 'CharacterController@server')->name('character.list');
-    Route::get('/characters/save/{serverID}/{characterID}', 'CharacterController@save')->name('character.save');
+    Route::any('/characters/save/{serverID}/{characterID}', 'CharacterController@save')->name('character.save');
 
     // Signups
     Route::get('/s/{id}', 'GoodBotController@signups')->name('s');

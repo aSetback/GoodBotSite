@@ -34,6 +34,28 @@ class Controller extends BaseController
         return json_decode($response);
     }
 
+    // Make an API request
+    function apiRequest($url, $post = FALSE, $headers = []) {
+        $ch = curl_init(env('BOT_API_URL') . $url);
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = curl_exec($ch);
+        
+        if ($post) {
+          curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+        }
+      
+        $headers[] = 'Accept: application/json';
+        if (session()->get('token')) {
+          $headers[] = 'Authorization: Bearer ' . session()->get('token');
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
+        $response = curl_exec($ch);
+        return json_decode($response);
+    }
+
     public function sendMessage($serverID = 0, $channelID = 0, $message) {
         if ($serverID) {
             $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
@@ -48,16 +70,16 @@ class Controller extends BaseController
     }
 
     public function goodBotInstalled($serverID) {
-        $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
-        if (!is_array($channels)) {
-            abort(redirect('/dashboard/install/' . $serverID));
+        $server = $this->botRequest('/guilds/' . $serverID);
+        if (property_exists($server, 'code')) {
+            return false;
         }
+        return true;
     }
 
     public function getServer($serverID, $adminCheck = true) {
-        
         // Retrieve guild information
-        $servers = $this->botRequest('/users/@me/guilds');
+        $servers = $this->apiRequest('/users/@me/guilds');
         usort($servers, function($a, $b) { return $a->name <=> $b->name; });
         session(['guilds' => $servers]);
         

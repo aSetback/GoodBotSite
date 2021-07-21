@@ -29,8 +29,12 @@ class CharacterController extends Controller
     public function server($serverID)
     {
         $currentServer = $this->getServer($serverID, false);
+
         $settings = Setting::where('guildID', $serverID)->first();
-        $this->goodBotInstalled($serverID);
+        if (!$this->goodBotInstalled($serverID)) {
+            return redirect()->route('character.list', ['serverID' => $serverID]);
+        }
+        
         $characters = [];
         $classes = [
             'warrior', 'paladin', 'shaman', 'hunter', 'rogue', 'druid', 'priest', 'warlock', 'mage'
@@ -46,6 +50,7 @@ class CharacterController extends Controller
                 $characters[] = $alt;
             }
         }
+        
 
         return view('characters.server')
         ->with('nick', $this->getNick($serverID))
@@ -54,6 +59,46 @@ class CharacterController extends Controller
         ->with('classes', $classes)
         ->with('roles', $roles)
         ->with('settings', $settings);
+    }
+
+    public function search($character) {
+
+        if (empty($server)) {
+            $server = 'Mankrik';
+        }
+        if (empty($region)) {
+            $region = 'US';
+        }
+        $searchUrl = "https://goodbot.me/api/gear/" . $character . "/" . $server . "/" . $region . "?id=" . env('GOODBOT_ID') . "&key=" . env('GOODBOT_KEY');
+
+        // init curl
+        $ch = curl_init($searchUrl);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = json_decode(curl_exec($ch));
+
+        if (property_exists($response, 'error')) {
+            return ['error' => $response->error];
+        }
+
+        $itemList = [];
+        foreach ($response->data AS $fight) {
+            foreach ($fight->gear AS $item) {
+                if (empty($itemList[$item->slot])) {
+                    $itemList[$item->slot] = [];
+                }
+                $itemList[$item->slot][$item->id] = $item;
+            }
+        }
+
+    
+        return view('characters.search')
+            ->with('itemList', $itemList)
+            ->with('character', $character);
     }
 
     public function save($serverID, $characterID) {
@@ -74,6 +119,9 @@ class CharacterController extends Controller
 
         $class = request()->query('class');
         $role = request()->query('role');
+        if (empty($name) || empty($class) || empty($role)) {
+            return ['error' => 'invalid'];
+        }
         $record = [
             'name' => $name,
             'class' => $class,
@@ -96,15 +144,9 @@ class CharacterController extends Controller
                 Character::create($record);
             }
         } else {
-            if ($main->id == $characterID && $main->name != $name) {
-                $result = $this->setNick($serverID, $name, true);
-                if (is_object($result) && $result->code == 50013) {
-                    die('The bot could not automatically change your name due to permissions issues.  It must have a higher role within roles than the person it is trying to change.  Please note that it can never change the nickname of an administrator.<br />Please fix the permission issue, or manually change your name to "' . $name . '" and try again.');
-                }
-            }
             Character::where('id', $characterID)->update($record);
         }
-        return redirect()->route('character.list', ['serverID' => $serverID]);
+        return ['success' => true];
     }
 
     public function setNick($serverID, $nick) {

@@ -161,7 +161,7 @@ class DashboardController extends Controller
     }
 
     public function install($serverID) {
-        $currentServer = $this->getServer($serverID, false);
+        $currentServer = $this->goodBotInstalled($serverID);
         return view('dashboard.install')
             ->with('server', $currentServer);
     }

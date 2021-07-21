@@ -3,9 +3,10 @@
 @section('content')
                     <header class="special container">
 						<span class="icon solid fa-chart-bar"></span>
-						<h2>World of Warcraft Guild Management</h2>
+						<h2>GoodBot</h2>
+						<h1>Raid Management<br />for World of Warcraft Classic</h1>
 						<br />
-						<p>Super-charge your discord with the ability to <strong>look up gear</strong>, <br />quickly and easily <strong>manage raid signups</strong><br /> and even allow players to set a <strong>soft reserve</strong>.
+						<p>Super-charge your discord with the ability to <strong>check a player's gear</strong>, <br />quickly and easily <strong>manage raid signups</strong><br /> along with <strong>item lookup</strong> and <strong>soft reserve</strong>.
 					</header>
 
 					<!-- One -->
@@ -14,15 +15,14 @@
 								<div class="col-8 col-12-narrower">
 
 									<header>
-										<h2>Manage Your Guild</h2>
+										<h2>Manage Your Raids</h2>
 									</header>
                                     <p>
-                                        Quickly and easily ping players who have signed up for your raid previously without notifying an entire server.<br />
-                                        Export your raid roster to a spreadsheet for easy raid assignments.<br />
-										See sign-ups based on class & spec, using the player's actual in-game character name.<br />
-										Check your raider's enchants.<br />
-										Set up confirmations for your raid to let players know what to plan on.<br />
-										Track your raid's resistances.<br />
+										&rarr; Quickly and easily ping players who have signed up for your raid previously without notifying an entire server.<br />
+                                        &rarr; Export your raid roster to a spreadsheet for easy raid assignments.<br />
+										&rarr; See sign-ups based on class & spec, using the player's actual in-game character name.<br />
+										&rarr; Set up confirmations for your raid to let players know what to plan on.<br />
+										&rarr; Track your raid's resistances.<br />
 										<i>And so much more.</i>
                                     </p>
 									<!-- <footer>
@@ -50,7 +50,7 @@
 										<header>
 											<h3>Google Sheets Export</h3>
 										</header>
-										<p>Copy our awesome assignment spreadsheet or set the bot up with your own.  One simple command, and the bot will export the sign-ups to a spreadsheet for you!</p>
+										<p>Copy our awesome assignment spreadsheet or set up your own.  One simple command, and the bot will export a raid's sign-ups to a spreadsheet for you!</p>
 									</section>
 
 								</div>

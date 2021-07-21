@@ -48,10 +48,30 @@
 	<body class="index is-preload">
 		<div id="page-wrapper">
 			<!-- Header -->
+			<style>
+				li.current {
+					position: relative;
+				}
+				.header-button {
+					position: absolute;
+					background: #772200;
+					top: -30px;
+					right: 0;
+					line-height: 30px;
+				}
+				#characterSearch {
+					height: 32px;
+					padding: 0 15px;
+				}
+			</style>
 			<header id="header" class="alt">
 				<h1 id="logo"><a href="/">GoodBot</a></h1>
 				<nav id="nav">
 					<ul>
+					<li class="current">
+						<input id="characterSearch" placeholder="Character Name" />
+						<button class="header-button" onclick="characterSearch();"><span class="icon solid fa-search"></span></button>
+					</li>
 					<li class="current"><a href="/">Home</a></li>
 					<li class="current"><a class="button primary" target="_blank" href="https://discordapp.com/oauth2/authorize?client_id=525115228686516244&permissions=8&scope=bot">Add GoodBot</a></li>
 						@if (empty(session()->get('user')))
@@ -131,7 +151,16 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
 		@yield('scripts')
 		<script>
+			function characterSearch() {
+				var character = $('#characterSearch').val();
+				window.location = '/characters/search/' + character
+			}
 			$(window).ready(function() {
+				$('#characterSearch').on('keyup', function(e) {
+					if (e.keyCode == 13) {
+						characterSearch();
+					}
+				});
 				$('.date').datepicker({'dateFormat': 'yy-mm-dd'});
 				$('.time').timepicker();
 				$('.spectrum').spectrum({preferredFormat: "hex"});
