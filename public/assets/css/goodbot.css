@@ -90,6 +90,10 @@ label.error {
     display: none;
     z-index: 999;
 }
+#gear-modal.no-modal {
+    display: block;
+    position: relative;
+}
 #gear-side {
     width: 73px;
     height: 600px;
@@ -299,3 +303,45 @@ h2 i {
 table.no-padding {
     margin: 0;
 }
+
+/* Character Page */
+.fa span  {
+    font-family: Lato, sans-serif;
+    font-weight: bold;
+  }
+  .orange {
+      color: orange;
+  }
+  #modal-overlay {
+      background: #000;
+      opacity: .6;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 10000;
+      display: none;
+  }
+  #modal {
+      width: 600px;
+      height: 400px;
+      background: #EFEFEF;
+      border: solid 2px #000;
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      margin-left: -300px;
+      z-index: 10001;
+      padding: 30px;
+      display: none;
+  }
+  #modal select, #modal input.input-name {
+      display: block;
+  }
+  #modal input[type=submit] {
+      width: 50px;
+      padding: 20px;
+      line-height: 20px;
+      height: 60px;
+      margin-top: 20px;
+  }
