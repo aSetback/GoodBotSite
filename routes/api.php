@@ -67,7 +67,7 @@ Route::middleware(['api'])->group(function() {
     Route::get('/raids', function() {
         $guildID = request()->get('guildID');
         $raids = Raid::where('guildID', $guildID)
-        ->where('date', '>', date('Y-m-d') + ' 00:00:00')
+        ->where('date', '>', date('Y-m-d') . ' 00:00:00')
         ->where('date', '<', date('Y-m-d', strtotime('+3 months')))
         ->get();
         
