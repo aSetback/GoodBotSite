@@ -73,7 +73,17 @@ Route::middleware(['api'])->group(function() {
         
         return RaidResource::collection($raids);
     });
-    
+
+    Route::get('/raids/historical', function() {
+        $guildID = request()->get('guildID');
+        $raids = Raid::where('guildID', $guildID)
+        ->where('date', '>', date('Y-m-d', strtotime('-12 months')))
+        ->where('date', '<', date('Y-m-d') . ' 00:00:00')
+        ->get();
+        
+        return RaidResource::collection($raids);
+    });
+
     Route::get('/raid/{raidID}', function($raidID) {
         $guildID = request()->get('guildID');
         $raid = Raid::with(['signups', 'signups.reserve.item'])
