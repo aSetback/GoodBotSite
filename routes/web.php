@@ -38,7 +38,7 @@ Route::get('/gear/{player}/{server}/{region}', 'RaidController@gear')->name('gea
 Route::get('/darkmode', 'UserController@darkmode')->name('darkmode');
 Route::get('/logout', 'UserController@logout')->name('logout');
 Route::get('/dashboard/admin', 'DashboardController@admin')->name('dashboard.admin');
-Route::get('/characters/search/{name}', 'CharacterController@search')->name('character.search');
+Route::get('/characters/search/{name}/{server?}/{region?}', 'CharacterController@search')->name('character.search');
 
 // Player Routes
 Route::group(['middleware' => ['oauth']], function() {
