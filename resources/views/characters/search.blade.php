@@ -63,6 +63,7 @@
                     $('.gear-loading').hide();
                     $('.gear-player').html(player).show();
                     for (slot in data.items) {
+                        console.log(data.items[slot]);
                         try {
                             if (slot == "Rings") {
                                 loadItem($('[slot="Ring1"]'), Object.values(data.items[slot])[0]);
@@ -82,6 +83,13 @@
             })
         }
         function loadItem(element, item) {
+            var count = item.count;
+            var oldCount = element.attr('count');
+            console.log(item);
+            if (oldCount < count) {
+                return false;
+            }
+            item = item.item;
             if (item.id == 0) {
                 element.css('background-image', '');
                 element.attr('href', '');
@@ -91,8 +99,20 @@
                 } else {
                     element.attr('href', 'https://tbc.wowhead.com/item=' + item.id);
                 }
+                if (item.gems) {
+                    var gemList = [];
+                    for (key in item.gems) {
+                        gemList.push(item.gems[key].id);
+                    }
+                    if (item.permanentEnchant) {
+                        element.attr('href', element.attr('href') + '&gems=' + gemList.join(':'));
+                    } else {
+                        element.attr('href', element.attr('href') + '?gems=' + gemList.join(':'));
+                    }
+                }
                 element.css('background-image', 'url(https://wow.zamimg.com/images/wow/icons/large/' + item.icon + ')');
                 element.attr('quality', item.quality);
+                element.attr('count', count);
             }
         }
         gearCheck('{{ $character }}');
