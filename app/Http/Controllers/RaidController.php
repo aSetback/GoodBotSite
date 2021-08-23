@@ -217,7 +217,14 @@ class RaidController extends Controller
                 if (empty($itemList[$item->slot])) {
                     $itemList[$item->slot] = [];
                 }
-                $itemList[$item->slot][$item->id] = $item;
+                if (!empty($itemList[$item->slot][$item->id])) {
+                    $itemList[$item->slot][$item->id]['count']++;
+                } else {
+                    $itemList[$item->slot][$item->id] = [
+                        'count' => 1, 
+                        'item' => $item
+                    ];
+                }
             }
         }
 
