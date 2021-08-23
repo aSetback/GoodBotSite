@@ -61,7 +61,7 @@ class CharacterController extends Controller
         ->with('settings', $settings);
     }
 
-    public function search($character) {
+    public function search($character, $server='', $region='') {
 
         if (empty($server)) {
             $server = 'Mankrik';
@@ -69,6 +69,8 @@ class CharacterController extends Controller
         if (empty($region)) {
             $region = 'US';
         }
+        $character = ucfirst(strtolower($character));
+
         $searchUrl = "https://goodbot.me/api/gear/" . $character . "/" . $server . "/" . $region . "?id=" . env('GOODBOT_ID') . "&key=" . env('GOODBOT_KEY');
 
         // init curl
@@ -95,16 +97,17 @@ class CharacterController extends Controller
             }
         }
 
-    
         return view('characters.search')
             ->with('itemList', $itemList)
-            ->with('character', $character);
+            ->with('character', $character)
+            ->with('wowServer', $server)
+            ->with('region', $region);
     }
 
     public function save($serverID, $characterID) {
         // Retrieve the character name from the query
         $name = ucfirst(strtolower(request()->query('name')));
-        // Retrieve the user's nickname on this server
+        // Retrieve the user's nickname on this server 
         $nick = $this->getNick($serverID);
         // Retrieve the user's main on this server
         $main = $this->getMain($serverID);

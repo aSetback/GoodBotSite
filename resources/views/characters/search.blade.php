@@ -58,7 +58,7 @@
             $('.gear-box').css('background-image', '');
             $('#gear-modal').show();
             $.ajax({
-                url: '/gear/' + player + '/Mankrik/US',
+                url: '/gear/' + player + '/' + wowServer + '/' + region,
                 success: function(data) {
                     $('.gear-loading').hide();
                     $('.gear-player').html(player).show();
@@ -115,6 +115,8 @@
                 element.attr('count', count);
             }
         }
+        var wowServer =  '{{ $wowServer }}';
+        var region = '{{ $region }}';
         gearCheck('{{ $character }}');
 </script>
 @endsection
