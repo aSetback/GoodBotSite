@@ -62,9 +62,15 @@ class GoodBotController extends Controller
             $bItem = $b->reserve ? $b->reserve->item->name : '-';
             return $bItem <=> $aItem;
          });
+        $raidParts = explode('+', $raid->raid);
+        $items = [];
+        foreach ($raidParts AS $raidPart) {
+            $raidItems = ReserveItem::where('raid', $raidPart)->orderBy('name')->get();
+            foreach ($raidItems AS $raidItem) {
+                $items[$raidItem->itemID] = $raidItem;
+            }
+        }
 
-        $items = ReserveItem::where('raid', $raid->raid)->orderBy('name')->get();
-        
         return view('goodbot.reserves')
         ->with('raid', $raid)
         ->with('items', $items)
