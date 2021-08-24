@@ -19,6 +19,7 @@ class Raid extends JsonResource
             'name' => $this->raid,
             'date' => $this->date,
             'guild' => $this->guildID,
+            'channelID' => $this->channelID,
             'softReserve' => $this->softreserve ? 1 : 0,
             'locked' => $this->locked ? 1 : 0,
             'title' => $this->title,
