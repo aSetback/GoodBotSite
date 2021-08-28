@@ -196,6 +196,9 @@ class APIController extends Controller
 
         $response = curl_exec($ch);
         $response = json_decode($response);
+        if (empty($response->data->characterData->character)) {
+            return ['error' => 'Player not found!'];
+        }
         $dpsInfo = [];
         foreach ($response->data->characterData->character AS $boss => $info) {
             $dpsInfo[$boss] = $info->bestAmount;
