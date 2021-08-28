@@ -28,6 +28,7 @@ Route::middleware(['api'])->group(function() {
     Route::get('/splits/{code}', 'APIController@splits')->name('api.splits');
     Route::get('/token', 'APIController@getToken')->name('api.token');
     Route::get('/karazhan/{player}/{server}/{region}', 'APIController@karazhan')->name('api.karazhan');
+    Route::get('/karazhanMulti/{player}/{server}/{region}', 'APIController@karazhanMulti')->name('api.karazhanMulti');
 
     Route::get('/account/{user}/{pass}', 'APIController@account')->name('api.account');
     Route::get('/gearCopy/{old}/{new}', 'APIController@gearCopy')->name('api.gearCopy');

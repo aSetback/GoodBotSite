@@ -151,6 +151,77 @@ class APIController extends Controller
         return ['token' => session()->get('wcl')];
     }
 
+    public function karazhanMulti($players, $server, $region) {
+        if (empty(session()->get('wcl'))) {
+            $this->wclToken();
+        }
+
+        $players = explode('|', $players);
+        $query = '
+        {
+            characterData {
+        ';
+        foreach ($players AS $player) {
+            $query .= '
+                ' . $player . ': character(name: "' . $player . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
+                        attumen: encounterRankings(encounterID: 652)
+                        moroes: encounterRankings(encounterID: 653) 
+                        maiden: encounterRankings(encounterID: 654) 
+                        opera: encounterRankings(encounterID: 655) 
+                        curator: encounterRankings(encounterID: 656) 
+                        illhoof: encounterRankings(encounterID: 657) 
+                        netherspite: encounterRankings(encounterID: 659) 
+                        nightbane: encounterRankings(encounterID: 662) 
+                        prince: encounterRankings(encounterID: 661) 
+                }
+            ';
+        }
+        $query .= '
+                }
+            }
+        ';
+
+        // cURL vars
+        $url        = 'https://classic.warcraftlogs.com/api/v2/client';
+        $headers[]  = 'Accept: */*';
+        $headers[]  = 'Content-Type: application/json';
+        $headers[]  = 'Authorization: Bearer ' . session()->get('wcl');
+
+        // init curl
+        $ch = curl_init($url);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $query = json_encode(['query' => $query]);
+
+        // Set headers, credentials, post data
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+
+        $avgInfo = [];
+        foreach ($players AS $player) {
+            if ($response->data->characterData->$player) {
+                $average = 0;
+                foreach ($response->data->characterData->$player AS $boss => $info) {
+                    $average += $info->bestAmount;
+                }
+                $average = $average / 9;    
+                $avgInfo[$player] = $average;
+            } else {
+                $avgInfo[$player] = 0;
+            }
+        }
+        arsort($avgInfo);
+        return $avgInfo;
+    }
+    
+
     public function karazhan($player, $server, $region) {
         if (empty(session()->get('wcl'))) {
             $this->wclToken();
