@@ -144,11 +144,71 @@ class APIController extends Controller
         session(['wcl' => $response->access_token]);
     }
 
-    public function splits($code) {
+    public function getToken() {
+        if (empty(session()->get('wcl'))) {
+            $this->wclToken();
+        }
+        return ['token' => session()->get('wcl')];
+    }
+
+    public function karazhan($player, $server, $region) {
         if (empty(session()->get('wcl'))) {
             $this->wclToken();
         }
 
+        $query = '
+            {
+                characterData {
+                    character(name: "' . $player . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
+                        attumen: encounterRankings(encounterID: 652)
+                        moroes: encounterRankings(encounterID: 653) 
+                        maiden: encounterRankings(encounterID: 654) 
+                        opera: encounterRankings(encounterID: 655) 
+                        curator: encounterRankings(encounterID: 656) 
+                        illhoof: encounterRankings(encounterID: 657) 
+                        netherspite: encounterRankings(encounterID: 659) 
+                        nightbane: encounterRankings(encounterID: 662) 
+                        prince: encounterRankings(encounterID: 661) 
+                    }
+                }
+            }
+        ';
+
+        // cURL vars
+        $url        = 'https://classic.warcraftlogs.com/api/v2/client';
+        $headers[]  = 'Accept: */*';
+        $headers[]  = 'Content-Type: application/json';
+        $headers[]  = 'Authorization: Bearer ' . session()->get('wcl');
+
+        // init curl
+        $ch = curl_init($url);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $query = json_encode(['query' => $query]);
+
+        // Set headers, credentials, post data
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+        $dpsInfo = [];
+        foreach ($response->data->characterData->character AS $boss => $info) {
+            $dpsInfo[$boss] = $info->bestAmount;
+        }
+
+        return $dpsInfo;
+    }
+    
+
+    public function splits($code) {
+        if (empty(session()->get('wcl'))) {
+            $this->wclToken();
+        }
         
         // cURL vars
         $url        = 'https://classic.warcraftlogs.com/api/v2/client';
