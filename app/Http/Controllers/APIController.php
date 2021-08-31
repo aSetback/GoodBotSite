@@ -212,7 +212,7 @@ class APIController extends Controller
                 foreach ($response->data->characterData->$player AS $boss => $info) {
                     $average += $info->bestAmount;
                 }
-                $average = $average / 9;    
+                $average = $average / 10;    
                 $avgInfo[$player] = $average;
             } else {
                 $avgInfo[$player] = 0;
