@@ -355,6 +355,57 @@ class APIController extends Controller
         exit;
     }
 
+    public function attendance($reportID) {
+        if (empty(session()->get('wcl'))) {
+            $this->wclToken();
+        }
+
+        $query = '
+            {                
+                reportData {
+                    report(code: "' . $reportID . '") {
+                        playerDetails(startTime: 0, endTime: 999999999)
+                    }
+                }  
+            }
+        ';
+
+        // cURL vars
+        $url        = 'https://classic.warcraftlogs.com/api/v2/client';
+        $headers[]  = 'Accept: */*';
+        $headers[]  = 'Content-Type: application/json';
+        $headers[]  = 'Authorization: Bearer ' . session()->get('wcl');
+
+        // init curl
+        $ch = curl_init($url);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $query = json_encode(['query' => $query]);
+
+        // Set headers, credentials, post data
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+        if (empty($response->data->reportData->report)) {
+            return ['response' => null];
+        }
+        $responseInfo = $response->data->reportData->report->playerDetails->data->playerDetails;
+        $playerList = [];
+        foreach ($responseInfo AS $key => $roleInfo) {
+            foreach ($roleInfo AS $role => $playerInfo) {
+                $playerList[$playerInfo->name] = $playerInfo->name;
+            }
+        }
+        sort($playerList);
+        return ['response' => $playerList];
+    }
+
     public function gear($character, $server, $region, $raid = 0) {
         if (empty(session()->get('wcl'))) {
             $this->wclToken();
