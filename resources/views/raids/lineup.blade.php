@@ -161,9 +161,9 @@
         }
         function loadItem(element, item) {
             if (item.permanentEnchant) {
-                element.attr('href', 'https://tbc.wowhead.com/item=' + item.id + '&ench=' + item.permanentEnchant);
+                element.attr('href', 'https://wotlk.wowhead.com/item=' + item.id + '&ench=' + item.permanentEnchant);
             } else {
-                element.attr('href', 'https://tbc.wowhead.com/item=' + item.id);
+                element.attr('href', 'https://wotlk.wowhead.com/item=' + item.id);
             }
             element.css('background-image', 'url(https://wow.zamimg.com/images/wow/icons/large/' + item.icon + ')');
             element.attr('quality', item.quality);

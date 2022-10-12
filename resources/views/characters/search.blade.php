@@ -95,9 +95,9 @@
                 element.attr('href', '');
             } else {
                 if (item.permanentEnchant) {
-                    element.attr('href', 'https://tbc.wowhead.com/item=' + item.id + '&ench=' + item.permanentEnchant);
+                    element.attr('href', 'https://wotlk.wowhead.com/item=' + item.id + '&ench=' + item.permanentEnchant);
                 } else {
-                    element.attr('href', 'https://tbc.wowhead.com/item=' + item.id);
+                    element.attr('href', 'https://wotlk.wowhead.com/item=' + item.id);
                 }
                 if (item.gems) {
                     var gemList = [];

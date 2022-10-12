@@ -25,7 +25,7 @@
                     <td>{{ $signup->player }}</td>
                     <td>
                         @if ($signup->reserve)
-                            <a href="https://tbc.wowhead.com/item/{{ $signup->reserve->item->itemID }}" id="reserve-link-{{ $signup->id }}">{{ $signup->reserve->item->name }}</a>
+                            <a href="https://wotlk.wowhead.com/item/{{ $signup->reserve->item->itemID }}" id="reserve-link-{{ $signup->id }}">{{ $signup->reserve->item->name }}</a>
                         @else
                             <a id="reserve-link-{{ $signup->id }}">none</a>
                         @endif
