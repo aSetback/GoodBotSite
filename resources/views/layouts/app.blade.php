@@ -22,40 +22,82 @@
 		<!-- JQuery UI -->
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
-		@if (session()->get('darkmode'))
-			<style>
-				body {
-					background: #333;
-				}
-				.wrapper.style2, .wrapper.style3 {
-					background: #772200;
-				}
-				#header, #footer {
-					background: #772200;
-					color: #CCC;
-				}
-				h1#logo {
-					color: #CCC;
-				}
-				table th {
-					color: #CCC;
-				}
-				h2 {
-					color: #CCC;
-				}
-				#main section {
-					color: #CCC;
-				}
-				.button.primary {
-					background: #CC9900;
-					border: solid 1px #CCC;
-				}
-				.dropotron {
-					background: #772200;
-					color: #CCC;
-				}
-			</style>
-		@endif
+		<style>
+			body {
+				background: #222;
+			}
+			.row { 
+				margin: 0!important;
+			}
+			.row .col-6 {
+				padding:0 25px!important;
+			}
+			.wrapper.style2, .wrapper.style3 {
+				background: #101;
+				border: solid 1px #c90;
+			}
+			#header, #header.alt, #footer {
+				background: #101;
+				color: #CCC;
+			}
+			#footer {
+				margin-top: 5em;
+			}
+			#banner {
+				background: #101!important;
+			}
+			#header.alt {
+				padding: 2.75em 3em;
+			}
+			#header.alt nav {
+				top: 2.5em;
+			}
+			h1#logo {
+				color: #CCC;
+			}
+			.container {
+				margin: 2em auto 0;
+				min-height: auto;
+			}
+			table {
+				border: solid 1px #333;
+				margin-bottom: 0!important;
+			}
+			table td {
+				background: #101!important;
+			}
+			table th, table td a {
+				color: #CCC;
+			}
+			h2 {
+				color: #CCC;
+			}
+			#main section {
+				color: #CCC;
+			}
+			.button.primary {
+				background: #CC9900;
+				border: solid 1px #CCC;
+			}
+			#nav .button.primary:hover {
+				background: #101010!important;
+				border: solid 1px #CC9900!important;
+			}
+			.dropotron {
+				background: #CC9900;
+				color: #CCC;
+				z-index: 10000!important;
+			}
+			section.wrapper {
+				padding: 1em;
+			}
+			.image:before {
+				background: none!important;
+			}
+			.image.featured {
+				min-height: auto!important;
+			}
+		</style>
 	</head>
 	<body class="index is-preload">
 		<div id="page-wrapper">
@@ -68,29 +110,9 @@
                         <li class="current"><a href="/">Home</a></li>
                         <li class="current"><a href="http://discord.goodbot.me">Support</a></li>
                         <li class="current"><a class="button primary" target="_blank" href="https://discordapp.com/oauth2/authorize?client_id=525115228686516244&permissions=8&scope=bot">Add GoodBot</a></li>
-                            @if (empty(session()->get('user')))
-                                <li><a href="/characters" class="button">Sign In</a></li>
-                            @else
-                                <li class="submenu">
-                                    <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
-                                    <ul>
-									<li><a href="/dashboard">Servers</a></li>
-									<li><a href="/raids">Raids</a></li>
-									<li><a href="/characters">Characters</a></li>
-									<li>
-										@if (!session()->get('darkmode'))
-										<a href="/darkmode">Dark Mode</a>
-										@else
-										<a href="/darkmode">Light Mode</a>
-										@endif
-									</li>
-                                        <!-- <li><a href="/raids">Raids</a></li> -->
-                                        <li><a href="/logout">Log Out</a></li>
-                                    </ul>
-                                </li>
-                            @endif
-
-						</ul>
+						@if (!empty(session()->get('user')))
+							<li><a href="/logout" class="button">Log Out</a></li>
+						@endif
 					</nav>
 				</header>
 

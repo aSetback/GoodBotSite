@@ -1,14 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-                    <header class="special container">
-						<span class="icon solid fa-chart-bar"></span>
-						<h2>GoodBot</h2>
-						<h1>Raid Management<br />for World of Warcraft Classic</h1>
-						<br />
-						<p>Super-charge your discord with the ability to <strong>check a player's gear</strong>, <br />quickly and easily <strong>manage raid signups</strong><br /> along with <strong>item lookup</strong> and <strong>soft reserve</strong>.
-					</header>
-
+					<section class="wrapper style2 container special-alt">
+						<center>
+							<h1>Raid Management<br />for World of Warcraft Classic</h1>
+							<br />
+							<p>Super-charge your guild's discord with streamlined raid management.</p>
+						</center>
+					</section>
 					<!-- One -->
 						<section class="wrapper style2 container special-alt">
 							<div class="row gtr-50">
@@ -22,12 +21,11 @@
                                         &rarr; Export your raid roster to a spreadsheet for easy raid assignments.<br />
 										&rarr; See sign-ups based on class & spec, using the player's actual in-game character name.<br />
 										&rarr; Set up confirmations for your raid to let players know what to plan on.<br />
-										&rarr; Track your raid's resistances.<br />
 										<i>And so much more.</i>
                                     </p>
 									<!-- <footer>
 										<ul class="buttons">
-											<li><a href="#" class="button">See More</a></li>
+											<li><a class="button">See More</a></li>
 										</ul>
 									</footer> -->
 
@@ -126,22 +124,22 @@
 								<div class="col-6 col-12-narrower">
 
 									<section>
-										<a href="#" class="image featured"><img src="images/image01.png" alt="" /></a>
+										<a class="image featured"><img src="images/image01.png" alt="" /></a>
 										<header>
-											<h3>Warcraft Logs Integration</h3>
+											<h3>Raid Duplication</h3>
 										</header>
-										<p>View your rankings & gear with Warcraft Logs integration!</p>
+										<p>Duplicate your raid for 7 days later with all the same settings, automatically posting your rules and pinging the players who attended the current raid with a single easy command.</p>
 									</section>
 
 								</div>
 								<div class="col-6 col-12-narrower">
 
 									<section>
-										<a href="#" class="image featured"><img src="images/image02.png" alt="" /></a>
+										<a class="image featured"><img src="images/image02.png" alt="" /></a>
 										<header>
-											<h3>NexusHub Integration</h3>
+											<h3>Crosspost Your Raid</h3>
 										</header>
-										<p>Look up items & prices with simple commands</p>
+										<p>Post your raid to a second server, allowing signups and reserves to be set from either server without having to pay for a premium plan.</p>
 									</section>
 
 								</div>
@@ -150,22 +148,22 @@
 								<div class="col-6 col-12-narrower">
 
 									<section>
-										<a href="#" class="image featured"><img src="images/image03.png" alt="" /></a>
+										<a class="image featured"><img src="images/image03.png" alt="" /></a>
 										<header>
 											<h3>Soft Reserves</h3>
 										</header>
-										<p>Quickly and easily manage soft reserves for your entire raid!</p>
+										<p>Quickly and easily manage soft reserves for your entire raid, while allowing reserves from multiple raids at once, or allowing multiple reserves per user.</p>
 									</section>
 
 								</div>
 								<div class="col-6 col-12-narrower">
 
 									<section>
-										<a href="#" class="image featured"><img src="images/image04.png" alt="" /></a>
+										<a class="image featured"><img src="images/image04.png" alt="" /></a>
 										<header>
 											<h3>Class & Role Management</h3>
 										</header>
-										<p>Allow users to easily manage their class & role through emojis in set-up channels.</p>
+										<p>Allow users to easily set up their character name, class and role with a couple easy clicks.</p>
 									</section>
 
 								</div>
@@ -173,7 +171,7 @@
 
 							<!-- <footer class="major">
 								<ul class="buttons">
-									<li><a href="#" class="button">See More</a></li>
+									<li><a class="button">See More</a></li>
 								</ul>
 							</footer> -->
 

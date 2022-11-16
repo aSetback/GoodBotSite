@@ -4,17 +4,42 @@
 <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
 <script src="https://wow.zamimg.com/widgets/power.js"></script>
 <header class="special container">
+    <h2 class="center">Raid Reserves</h2>
     <span class="icon solid fa-clipboard-check"></span>
-    <h2>Raid Reserves<br /> {{ $raid->name ? $raid->name . ' ' . $raid->raid: $raid->raid}}<br />{{ $raid->date }} </h2>
 </header>
 <section class="wrapper style2 container special-alt">
-<div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
+        <table id="raidinfo">
+            <tr>
+                <td style="width: 25%">Raid Type:</td>
+                <td>{{ ucfirst($raid->raid) }}</td>
+            </tr>
+            <tr>
+                <td style="width: 25%">Raid Date:</td>
+                <td>{{ date("F d, Y", strtotime($raid->date)) }} </td>
+            </tr>
+            @if (!empty($raid->time))
+            <tr>
+                <td style="width: 25%">Raid Time:</td>
+                <td>{{ $raid->time }}</td>
+            </tr>
+            @endif
+            @if ($raid->reserveLimit > 1)
+            <tr>
+                <td style="width: 25%">Raid Limit:</td>
+                <td>{{ $raid->reserveLimit }}</td>
+            </tr>
+            @endif
+        </table>
+    </div>
+</section>
+<section class="wrapper style2 container special-alt">
+    <div class="row">
         <table id="reserves">
             <thead>
                 <tr>
-                    <th style="wdith: 200px;">Name</th>
-                    <th style="width: 400px;">Reserve</th>
+                    <th style="width: 25%;">Name</th>
+                    <th style="width: 75%;">Reserve @if ($raid->reserveLimit > 1) - (Please select {{ $raid->reserveLimit }}) @endif</th>
                     <th>
                 </tr>
             </thead>
@@ -50,9 +75,7 @@
         @endforeach
         </tbody>
         </table>
-        <br /><br />
     </div>
-</div>
 </section>
 @endsection
 
