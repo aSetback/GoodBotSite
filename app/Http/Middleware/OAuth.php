@@ -57,8 +57,8 @@ class OAuth
     // Redirect the user to the auth URL
     function getAuthorization($request) {
       $params = [
-        'client_id' => env('OAUTH2_CLIENT_ID'),
-        'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
+        'client_id' => config('oauth.clientId'),
+        'redirect_uri' => config('oauth.redirectUrl'),
         'response_type' => 'code',
         'scope' => 'identify guilds',
         'state' => $request->path()
@@ -71,9 +71,9 @@ class OAuth
     function getToken($code) {
       $token = $this->apiRequest($this->tokenURL, [
         "grant_type" => "authorization_code",
-        'client_id' => env('OAUTH2_CLIENT_ID'),
-        'client_secret' => env('OAUTH2_CLIENT_SECRET'),
-        'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
+        'client_id' => config('oauth.clientId'),
+        'client_secret' => config('oauth.clientSecret'),
+        'redirect_uri' => config('oauth.redirectUrl'),
         'code' => session()->get('code')
       ]);
       return $token;
