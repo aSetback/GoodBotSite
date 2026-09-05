@@ -50,9 +50,25 @@ class GoodBotController extends Controller
             ->with('signups', $signups);
     }
 
-    public function reserves($id)
+    public function reserves($token)
     {
+        // Not real access control (base64 isn't encryption) -- just deters
+        // casually paging through sequential raid IDs. The bot embeds this
+        // token instead of a bare ID; a raw ID alone won't decode to a
+        // matching memberID, so it 404s here.
+        $padded = strtr($token, '-_', '+/');
+        $padded .= str_repeat('=', (4 - strlen($padded) % 4) % 4);
+        $decoded = base64_decode($padded, true);
+        $parts = $decoded !== false ? explode(':', $decoded, 2) : false;
+        if (!$parts || count($parts) !== 2) {
+            abort(404);
+        }
+        [$id, $memberID] = $parts;
+
         $raid = Raid::with(['signups', 'signups.reserve', 'signups.reserve.item'])->where('id', $id)->first();
+        if (!$raid || (string) $raid->memberID !== (string) $memberID) {
+            abort(404);
+        }
         $signupList = [];
         foreach ($raid->signups AS $signup) {
             $signupList[] = $signup;
